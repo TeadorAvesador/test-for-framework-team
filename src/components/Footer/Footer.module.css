@@ -1,0 +1,30 @@
+.wrap {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+   }
+   
+   .item_count {
+    margin: auto;
+    font-size: 15px;
+   }
+   
+   .button_group {
+    display: flex;
+    justify-content: space-between;
+    text-align: center;
+   }
+   
+   .button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    font-size: 15px;
+    outline: none;
+   }
+   
+   .button:hover {
+    background: #f0eeee;
+    border-radius: 3px;
+   }
