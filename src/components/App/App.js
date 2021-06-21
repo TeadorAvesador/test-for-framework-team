@@ -1,5 +1,4 @@
 import React from 'react';
-import reactDom from 'react-dom';
 import styles from './App.module.css';
 import InputItem from '../InputItem/InputItem';
 import ItemList from '../ItemList/ItemList';
@@ -29,7 +28,6 @@ class App extends React.Component {
         id: 4
       }
     ],
-    count: 4,
     isError: false
   };
 
@@ -72,7 +70,6 @@ class App extends React.Component {
   };
 
   render() {
-    const casesCount = this.state.items.filter(item => item.isDone === false);
 
     return(
       <div className={styles.wrap}>
@@ -80,6 +77,7 @@ class App extends React.Component {
         <InputItem onClickAdd={this.onClickAdd} isError={this.state.isError} />
         <ItemList 
           items={this.state.items}
+          onClickEdit={this.onClickEdit}
           onClickDone={this.onClickDone}
           onClickDelete={this.onClickDelete}
         />
