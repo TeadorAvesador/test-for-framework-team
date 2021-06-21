@@ -1,30 +1,91 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
-import About from '../About/About';
-import Todo from '../Todo/Todo';
-import Contacts from '../Contacts/Contacts';
-import Paper from '@material-ui/core/Paper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+import reactDom from 'react-dom';
 import styles from './App.module.css';
+import InputItem from '../InputItem/InputItem';
+import ItemList from '../ItemList/ItemList';
 
-  const App = () => (
-    <Router>
+
+class App extends React.Component {
+  state = {
+    items:[
+      {
+        value : 'Написать приложение',
+        isDone: true,
+        id: 1
+      },
+      {
+        value : 'Закончить блок react',
+        isDone: false,
+        id: 2
+      },
+      {
+        value : 'Выучить английский',
+        isDone: false,
+        id: 3
+      },
+      {
+        value : 'Приступить к следующему блоку',
+        isDone: false,
+        id: 4
+      }
+    ],
+    count: 4,
+    isError: false
+  };
+
+  onClickDone = id => {
+    const newItemList = this.state.items.map(item => {
+      const newItem = { ...item };
+
+      if (item.id === id) {
+        newItem.isDone = !item.isDone;
+      };
+
+      return newItem;
+    });
+
+    this.setState({ items: newItemList });
+  };
+
+  onClickDelete = id => {
+    const newItemList = this.state.items.filter(item => item.id !== id);
+    this.setState({ items: newItemList });
+  };
+
+  onClickAdd = value => {
+    if (value !== '') {
+      this.setState(state => ({
+        items: [
+          ...state.items,
+          {
+            value,
+            isDone: false,
+            id: state.count + 1
+          }
+        ],
+        count: state.count + 1,
+        isError: false
+      }));
+    } else {
+      this.setState(state => ({ isError: true }));
+    };
+  };
+
+  render() {
+    const casesCount = this.state.items.filter(item => item.isDone === false);
+
+    return(
       <div className={styles.wrap}>
-        <Paper className={styles.sidebar}>
-          <MenuList>
-            <Link to='/' className={styles.link}><MenuItem>Обо мне</MenuItem></Link>
-            <Link to='/todo' className={styles.link}><MenuItem>Дела</MenuItem></Link>
-            <Link to='/contacts' className={styles.link}><MenuItem>Контакты</MenuItem></Link>
-          </MenuList>
-        </Paper>
-        <Paper>
-          <Route path='/' exact component={About} />
-          <Route path='/todo' component={Todo} />
-          <Route path='/contacts' component={Contacts} />
-        </Paper>
+        <h1>Список дел:</h1>
+        <InputItem onClickAdd={this.onClickAdd} isError={this.state.isError} />
+        <ItemList 
+          items={this.state.items}
+          onClickDone={this.onClickDone}
+          onClickDelete={this.onClickDelete}
+        />
       </div>
-    </Router>
-  );
+    );
+  };
+}
 
   export default App;
